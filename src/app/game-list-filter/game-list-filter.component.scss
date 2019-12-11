@@ -1,0 +1,143 @@
+$purple: darkslateblue;
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
+
+form {
+  width: 80%;
+  margin: 20px auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .inputs-group {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+
+    .input-group {
+      position: relative;
+      display: inline-block;
+      margin: 30px 10px;
+      width: 33%;
+
+      .slide-up {
+        display: inline-block;
+        width: 100%;
+        padding: 10px 0 10px 15px;
+        //font-family: "Open Sans", sans;
+        color: $purple;
+        background: #efefef;
+        font-weight: bold;
+        border: 0;
+        border-radius: 3px;
+        outline: 0;
+        //text-indent: 80px; // Arbitrary.
+        direction: rtl;
+        transition: all .3s ease-in-out;
+
+        &::-webkit-input-placeholder {
+          color: #efefef;
+          text-indent: 0;
+          font-weight: 300;
+        }
+
+        + label {
+          display: inline-block;
+          position: absolute;
+          transform: translateX(0);
+          top: 0;
+          left: 0;
+          padding: 9px 15px;
+          text-shadow: 0 1px 0 rgba(19, 74, 70, .4);
+          transition: all .3s ease-in-out;
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+          overflow: hidden;
+          color: white;
+          font-weight: bold;
+
+          &:before,
+          &:after {
+            content: "";
+            position: absolute;
+            right: 0;
+            left: 0;
+            z-index: -1;
+            transition: all .3s ease-in-out;
+          }
+
+          &:before {
+            // Skinny bit here
+            top: 6px;
+            left: 5px;
+            right: 5px;
+            bottom: 6px;
+            color: white;
+            background: $purple; // change this to #134A46
+          }
+
+          &:after {
+            top: 0;
+            bottom: 0;
+            color: white;
+            background: $purple;
+          }
+        }
+      }
+
+      .slide-up:focus,
+      .slide-up:active {
+        color: $purple;
+        text-indent: 0;
+        background: #fff;
+        border-bottom: $purple 1px solid;
+
+        &::-webkit-input-placeholder {
+          color: #aaa;
+        }
+
+        + label {
+          transform: translateY(-100%);
+
+          &:before {
+            border-radius: 5px;
+          }
+
+          &:after {
+            transform: translateY(100%);
+          }
+        }
+      }
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 15%;
+
+    button {
+      padding: 9px 15px;
+      text-shadow: 0 1px 0 rgba(19, 74, 70, .4);
+      margin: 0 5px;
+      border-radius: 3px;
+      border: none;
+      overflow: hidden;
+      color: white;
+      font-weight: bold;
+
+      &.btn-ok {
+        background-color: $purple;
+      }
+
+      &.btn-warning {
+        background-color: darkorange;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<app-game-list-filter></app-game-list-filter>
+<section>
+  <article class="games-container">
+    <div *ngFor="let jeu of jeux" class="card">
+      <div class="card-header">
+        <div class="avatar">
+          <img [src]="jeu.editorLogo" alt="{{jeu.editor}} logo" title="{{jeu.editor}}">
+        </div>
+        <div class="card-header-middle">
+          <h3 class="title">{{jeu.titre}}</h3>
+          <p>{{jeu.type}}</p>
+        </div>
+        <div class="card-header-right">
+          <p>{{jeu.note}}/10</p>
+        </div>
+      </div>
+      <div class="card-img">
+        <img [src]="jeu.cover"
+             alt="battleblock theater cover">
+      </div>
+      <div class="card-body">
+        <p class="description">{{truncate(jeu.description)}}</p>
+      </div>
+      <div class="card-footer">
+        <a href="#" class="card-button">Follow</a>
+        <a href="#" class="card-button">Share</a>
+        <a href="#" class="card-button">Buy</a>
+      </div>
+    </div>
+  </article>
+</section>
