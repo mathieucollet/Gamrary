@@ -1,0 +1,23 @@
+<form action="">
+  <div class="inputs-group">
+    <div class="input-group">
+      <input type="text" name="name" id="name" class="slide-up">
+      <label for="name">Nom</label>
+    </div>
+    <div class="input-group">
+      <select name="type" id="type" class="slide-up">
+        <option disabled>Choisis un type</option>
+        <option *ngFor="let option of options" [value]="option">{{option}}</option>
+      </select>
+      <label for="type">Type</label>
+    </div>
+    <div class="input-group">
+      <input type="text" name="editor" id="editor" class="slide-up">
+      <label for="editor">Éditeur</label>
+    </div>
+  </div>
+  <div class="form-buttons">
+    <button type="submit" class="btn-ok">Filter</button>
+    <button type="submit" class="btn-warning">RAZ</button>
+  </div>
+</form>
