@@ -1,23 +1,26 @@
 <form action="">
   <div class="inputs-group">
     <div class="input-group">
-      <input type="text" name="name" id="name" class="slide-up">
+      <input type="text" name="name" id="name" class="slide-up" [value]="form.name"
+             (change)="setValue($event.target)">
       <label for="name">Nom</label>
     </div>
     <div class="input-group">
-      <select name="type" id="type" class="slide-up">
+      <select name="type" id="type" class="slide-up" [value]="form.type"
+              (change)="setValue($event.target)">
         <option disabled>Choisis un type</option>
-        <option *ngFor="let option of options" [value]="option">{{option}}</option>
+        <option *ngFor="let option of categories | keyvalue" [value]="option.value">{{option.value}}</option>
       </select>
       <label for="type">Type</label>
     </div>
     <div class="input-group">
-      <input type="text" name="editor" id="editor" class="slide-up">
+      <input type="text" name="editor" id="editor" class="slide-up" [value]="form.editor"
+             (change)="setValue($event.target)">
       <label for="editor">Éditeur</label>
     </div>
   </div>
   <div class="form-buttons">
-    <button type="submit" class="btn-ok">Filter</button>
-    <button type="submit" class="btn-warning">RAZ</button>
+    <div (click)="filter()" class="button btn-ok">Filter</div>
+    <div (click)="razFilter()" class="button btn-warning">RAZ</div>
   </div>
 </form>
