@@ -26,7 +26,7 @@ export class GameListComponent implements OnInit {
       cover: 'https://www.pdvg.it/wp-content/uploads/2017/10/cuphead_1920x1080_titled_hero_art.jpg',
       editor: 'Studio MDHR',
       editorLogo:
-        'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/dd/dd512d95ac2870c1e29064707d49719535179c5e_full.jpg',
+        'http://www.studiomdhr.com/press/images/logo.png',
       description:
         'Cuphead est un jeu vidéo indépendant mêlant « Shoot \'em up » et « run and gun ». Il est créé par des frères canadiens, ' +
         'Chad et Jared Moldenhauer, employés du Studio MDHR. Le jeu est inspiré par les œuvres de réalisateurs de dessins animés ' +
@@ -40,7 +40,7 @@ export class GameListComponent implements OnInit {
         'https://vignette.wikia.nocookie.net/mylittlepony/images/2/25/G%C3%A9n%C3%A9rique_%28Photo_Finish_fait_le_photo%29.png' +
         '/revision/latest?cb=20140130061148&path-prefix=fr',
       editor: 'Gameloft',
-      editorLogo: 'https://pbs.twimg.com/profile_images/1155800354811994112/TwhaF1RT_400x400.jpg',
+      editorLogo: 'https://cdn.vox-cdn.com/thumbor/VDxA2ZDaqE_qeR7Yyd-gu-TYQOM=/204x92:1045x653/1400x1400/filters:focal(204x92:1045x653):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/49807707/maxresdefault.0.0.jpg',
       description: 'In the game, the player is asked to help Twilight Sparkle rebuild her home of Ponyville after it fell into the ' +
         'shadow of the villainous Nightmare Moon. To do so, the player uses in-game currency and other collected treasures to build homes' +
         ' to bring more ponies to the town, and then create businesses for them to work at and generate money. '
