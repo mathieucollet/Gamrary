@@ -1,14 +1,21 @@
-<app-game-list-filter></app-game-list-filter>
+<app-game-list-filter (filtered)="filtering($event)"></app-game-list-filter>
+<div class="css-buttons">
+  <div (click)="changeCardSize(10, true)" class="css-button">-</div>
+  <div (click)="changeCardSize(10)" class="css-button">+</div>
+  <div (click)="resetCardSize()" class="css-button">RAZ</div>
+</div>
 <section>
   <article class="games-container">
-    <div *ngFor="let jeu of jeux" class="card">
+    <div *ngFor="let jeu of filteredGames" class="card" [style.width.px]="actualCardWidth  ">
       <div class="card-header">
         <div class="avatar">
           <img [src]="jeu.editorLogo" alt="{{jeu.editor}} logo" title="{{jeu.editor}}">
         </div>
         <div class="card-header-middle">
           <h3 class="title">{{jeu.titre}}</h3>
-          <p>{{jeu.type}}</p>
+          <p>
+            <span *ngFor="let type of jeu.types; let last = last">{{!last ? type + ', ' : type}}</span>
+          </p>
         </div>
         <div class="card-header-right">
           <p>{{jeu.note}}/10</p>
@@ -21,11 +28,8 @@
       <div class="card-body">
         <p class="description">{{truncate(jeu.description)}}</p>
       </div>
-      <div class="card-footer">
-        <a href="#" class="card-button">Follow</a>
-        <a href="#" class="card-button">Share</a>
-        <a href="#" class="card-button">Buy</a>
-      </div>
+      <app-game-buttons [game]="jeu.titre" (clicked)="buttonAlert($event)"></app-game-buttons>
+
     </div>
   </article>
 </section>

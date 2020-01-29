@@ -1,0 +1,9 @@
+<!--<div class="card-footer">-->
+<!--  <a (click)="onClick('Follow')" class="card-button">Follow</a>-->
+<!--  <a (click)="onClick('Share')" class="card-button">Share</a>-->
+<!--  <a (click)="onClick('Buy')" class="card-button">Buy</a>-->
+<!--</div>-->
+<div class="card-footer">
+  <a *ngFor="let button of Buttons | keyvalue" (click)="onClick(button.value)" class="card-button">{{button.value}}</a>
+</div>
+
