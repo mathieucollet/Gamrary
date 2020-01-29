@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {GameCategories} from '../game-categories.enum';
+
+type TargetType = any | { name: string, value: string };
 
 @Component({
   selector: 'app-game-list-filter',
@@ -6,9 +9,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-list-filter.component.scss']
 })
 export class GameListFilterComponent implements OnInit {
-  options = ['RPG', 'action', 'shooter', 'plateforme', 'combat'];
+  @Output() filtered = new EventEmitter();
 
-  constructor() { }
+  categories = GameCategories;
+
+  form = {
+    name: '',
+    type: '',
+    editor: '',
+  };
+
+  setValue(target: TargetType) {
+    this.form[target.name] = target.value;
+  }
+
+  filter() {
+    this.filtered.emit(this.form);
+  }
+
+  razFilter() {
+    const that = this.form;
+    Object.keys(this.form).map((key, index) => {
+      that[key] = '';
+    });
+    this.filtered.emit(this.form);
+  }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

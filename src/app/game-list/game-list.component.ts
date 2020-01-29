@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {GameCategories} from '../game-categories.enum';
 
 @Component({
   selector: 'app-game-list',
@@ -9,9 +10,9 @@ export class GameListComponent implements OnInit {
   jeux = [
     {
       titre: 'BattleBlock Theater',
-      type: 'Jeu de platform multijoueur',
+      types: [GameCategories.Plateform, GameCategories.Multiplayer],
       note: '9.8',
-      cover: 'http://www.necdeusnecdominus.fr/wp-content/uploads/2016/04/e75b66f17d7b7802052525321a1bf86fa95a1a20.jpg',
+      cover: 'https://vistapointe.net/images/battleblock-theater-5.jpg',
       editor: 'The Behemoth',
       editorLogo: 'https://pbs.twimg.com/media/DgBUwTvUcAApFOy.jpg',
       description: 'Having shipwrecked on a mysterious island you find yourself both betrayed by your best friend\n' +
@@ -20,9 +21,9 @@ export class GameListComponent implements OnInit {
     },
     {
       titre: 'Cuphead',
-      type: 'Shoot\'em up, run and gun',
+      types: [GameCategories.Shootemup, GameCategories.Runandgun, GameCategories.Multiplayer],
       note: '10',
-      cover: 'https://images6.alphacoders.com/860/thumb-1920-860735.jpg',
+      cover: 'https://www.pdvg.it/wp-content/uploads/2017/10/cuphead_1920x1080_titled_hero_art.jpg',
       editor: 'Studio MDHR',
       editorLogo:
         'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/dd/dd512d95ac2870c1e29064707d49719535179c5e_full.jpg',
@@ -33,7 +34,7 @@ export class GameListComponent implements OnInit {
     },
     {
       titre: 'Mon petit poney',
-      type: 'Jeu de platform',
+      types: [GameCategories.Plateform, GameCategories.Solo],
       note: '0.2',
       cover:
         'https://vignette.wikia.nocookie.net/mylittlepony/images/2/25/G%C3%A9n%C3%A9rique_%28Photo_Finish_fait_le_photo%29.png' +
@@ -45,6 +46,10 @@ export class GameListComponent implements OnInit {
         ' to bring more ponies to the town, and then create businesses for them to work at and generate money. '
     }
   ];
+  filteredGames: any[];
+
+  actualCardWidth = 500;
+  baseCardWidth = 500;
 
   constructor() {
   }
@@ -53,7 +58,30 @@ export class GameListComponent implements OnInit {
     return description.split(' ', 20).join(' ') + ' ...';
   }
 
+  buttonAlert(event) {
+    alert('You clicked on ' + event.type + ' for the game ' + event.game);
+  }
+
+  changeCardSize(value: number, negative: boolean = false) {
+    this.actualCardWidth += negative ? -value : value;
+  }
+
+  resetCardSize() {
+    this.actualCardWidth = this.baseCardWidth;
+  }
+
+  filtering(form) {
+    // console.log(this.jeux[0].types.includes('Multijoueur'));
+    this.filteredGames = this.jeux
+      .filter(jeu =>
+        (!form.name || jeu.titre === form.name)
+        && (!form.type || jeu.types.includes(form.type))
+        && (!form.editor || jeu.editor === form.editor)
+      );
+  }
+
   ngOnInit() {
+    this.filtering({});
   }
 
 }
