@@ -7,6 +7,7 @@ import {GameListComponent} from './game-list/game-list.component';
 import {GameListFilterComponent} from './game-list-filter/game-list-filter.component';
 import {GameButtonsComponent} from './game-buttons/game-buttons.component';
 import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {FormsModule} from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

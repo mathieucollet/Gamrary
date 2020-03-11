@@ -4,17 +4,18 @@
   <div (click)="changeCardSize(10)" class="css-button">+</div>
   <div (click)="resetCardSize()" class="css-button">RAZ</div>
 </div>
-<section>
+<ng-template #loading>Chargement ...</ng-template>
+<section *ngIf="jeux; else loading">
   <article class="games-container">
-    <div *ngFor="let jeu of filteredGames" class="card" [style.width.px]="actualCardWidth  ">
+    <div *ngFor="let jeu of filteredGames" class="card" [style.width.px]="actualCardWidth">
       <div class="card-header">
         <div class="avatar">
-          <img [src]="jeu.editorLogo" alt="{{jeu.editor}} logo" title="{{jeu.editor}}">
+          <img [src]="jeu.publisher.logo" alt="{{jeu.publisher.name}} logo" title="{{jeu.publisher.name}}">
         </div>
         <div class="card-header-middle">
           <h3 class="title">{{jeu.titre}}</h3>
           <p>
-            <span *ngFor="let type of jeu.types; let last = last">{{!last ? type + ', ' : type}}</span>
+            <span *ngFor="let genre of jeu.genres; let last = last">{{!last ? genre.name + ', ' : genre.name}}</span>
           </p>
         </div>
         <div class="card-header-right">
