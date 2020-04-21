@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {GameFakeApiService} from './services/game-fake-api.service';
-import {GameCategoryFakeApiService} from './services/game-category-fake-api.service';
+import {GameApiService} from './services/game-api.service';
+import {Games} from '../interfaces/games';
 
 @Component({
   selector: 'app-game-list',
@@ -8,18 +8,18 @@ import {GameCategoryFakeApiService} from './services/game-category-fake-api.serv
   styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
-  jeux: any[];
+  games: Games[];
 
   filteredGames: any[];
 
   actualCardWidth = 500;
   baseCardWidth = 500;
 
-  constructor(private gameApi: GameFakeApiService, private categoriesApi: GameCategoryFakeApiService) {
+  constructor(private gameApi: GameApiService) {
   }
 
   truncate(description) {
-    return description.split(' ', 20).join(' ') + ' ...';
+    return description.split(' ', 15).join(' ') + ' ...';
   }
 
   buttonAlert(event) {
@@ -35,22 +35,24 @@ export class GameListComponent implements OnInit {
   }
 
   filtering(form) {
-    this.filteredGames = this.jeux
-      .filter(jeu =>
-        (!form.name || jeu.titre.includes(form.name))
-        && (!form.type || jeu.types.includes(form.type))
-        && (!form.editor || jeu.editor.includes(form.editor))
+    this.filteredGames = this.games
+      .filter(game =>
+        (!form.name || game.title.includes(form.name))
+        && (!form.type || (!!game.genres.find(genre => genre.id === Number(form.type))))
+        && (!form.editor || game.publisher.name.includes(form.editor))
       );
   }
 
-  ngOnInit() {
-    this.gameApi.getAll().subscribe(
-      value => {
-        this.jeux = value;
-        console.log(this.jeux);
+  getGamesList() {
+    this.gameApi.getAllGames()
+      .subscribe((data: Games[]) => {
+        this.games = data;
         this.filtering({});
-      }
-    );
+      });
+  }
+
+  ngOnInit() {
+    this.getGamesList();
   }
 
 }
