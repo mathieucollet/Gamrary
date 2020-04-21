@@ -130,6 +130,7 @@ form {
       overflow: hidden;
       color: white;
       font-weight: bold;
+      cursor: pointer;
 
       &.btn-ok {
         background-color: $purple;

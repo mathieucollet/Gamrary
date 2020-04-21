@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {GameCategories} from '../game-categories.enum';
+import {GameApiService} from '../game-list/services/game-api.service';
+import {Categories} from '../interfaces/categories';
 
 type TargetType = any | { name: string, value: string };
 
@@ -11,7 +12,11 @@ type TargetType = any | { name: string, value: string };
 export class GameListFilterComponent implements OnInit {
   @Output() filtered = new EventEmitter();
 
-  categories = GameCategories;
+  games: any;
+  categories: Categories[];
+
+  constructor(private gameApi: GameApiService) {
+  }
 
   form = {
     name: '',
@@ -35,10 +40,15 @@ export class GameListFilterComponent implements OnInit {
     this.filtered.emit(this.form);
   }
 
-  constructor() {
+  getCategoriesList() {
+    this.gameApi.getAllCategories()
+      .subscribe((data: Categories[]) => {
+        this.categories = data;
+      });
   }
 
   ngOnInit() {
+    this.getCategoriesList();
   }
 
 }

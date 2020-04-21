@@ -4,32 +4,47 @@
   <div (click)="changeCardSize(10)" class="css-button">+</div>
   <div (click)="resetCardSize()" class="css-button">RAZ</div>
 </div>
-<ng-template #loading>Chargement ...</ng-template>
-<section *ngIf="jeux; else loading">
+<ng-template #loading>
+  <div class="spin-container">
+    <div class="lds-grid">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</ng-template>
+<section *ngIf="games; else loading">
   <article class="games-container">
-    <div *ngFor="let jeu of filteredGames" class="card" [style.width.px]="actualCardWidth">
+    <div *ngFor="let game of filteredGames" class="card" [style.width.px]="actualCardWidth">
       <div class="card-header">
-        <div class="avatar">
-          <img [src]="jeu.publisher.logo" alt="{{jeu.publisher.name}} logo" title="{{jeu.publisher.name}}">
-        </div>
         <div class="card-header-middle">
-          <h3 class="title">{{jeu.titre}}</h3>
+          <h3 class="title">{{game.title}}</h3>
           <p>
-            <span *ngFor="let genre of jeu.genres; let last = last">{{!last ? genre.name + ', ' : genre.name}}</span>
+            <span *ngFor="let genre of game.genres; let last = last">{{!last ? genre.name + ', ' : genre.name}}</span>
           </p>
         </div>
         <div class="card-header-right">
-          <p>{{jeu.note}}/10</p>
+          <p>{{game.note ? game.note : '- '}}/10</p>
         </div>
       </div>
       <div class="card-img">
-        <img [src]="jeu.cover"
-             alt="battleblock theater cover">
+        <img [src]="game.coverImage"
+             [alt]="game.title + 'battleblock theater cover'">
       </div>
       <div class="card-body">
-        <p class="description">{{truncate(jeu.description)}}</p>
+        <p class="description">{{truncate(game.description)}}</p>
+        <div class="infos">
+          <p><span class="muted">Publisher : </span> {{game.publisher.name}}</p>
+          <p><span class="muted">Developer : </span> {{game.developer.name}}</p>
+        </div>
       </div>
-      <app-game-buttons [game]="jeu.titre" (clicked)="buttonAlert($event)"></app-game-buttons>
+      <app-game-buttons [game]="game.titre" (clicked)="buttonAlert($event)"></app-game-buttons>
 
     </div>
   </article>

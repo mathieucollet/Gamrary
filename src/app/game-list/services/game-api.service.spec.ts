@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GameFakeApiService } from './game-fake-api.service';
+import { GameApiService } from './game-api.service';
 
-describe('GameFakeApiService', () => {
+describe('GameApiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GameFakeApiService = TestBed.get(GameFakeApiService);
+    const service: GameApiService = TestBed.get(GameApiService);
     expect(service).toBeTruthy();
   });
 });
