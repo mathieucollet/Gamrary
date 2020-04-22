@@ -10,4 +10,8 @@ export interface Games {
   description: string;
   developer: Developers;
   coverImage: string;
+  first_page: number;
+  last_page: number;
+  next_page: number;
+  previous_page: number;
 }
