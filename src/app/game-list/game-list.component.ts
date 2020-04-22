@@ -11,6 +11,8 @@ export class GameListComponent implements OnInit {
   games: Games[];
 
   filteredGames: any[];
+  pagination: any[];
+  currentPage: number;
 
   actualCardWidth = 500;
   baseCardWidth = 500;
@@ -43,10 +45,19 @@ export class GameListComponent implements OnInit {
       );
   }
 
-  getGamesList() {
-    this.gameApi.getAllGames()
+  getGamesList(url?: string) {
+    this.gameApi.getAllGames(url)
       .subscribe((data: Games[]) => {
         this.games = data;
+        this.pagination = [
+          this.gameApi.firstPage,
+          this.gameApi.prevPage,
+          this.gameApi.currentPage,
+          this.gameApi.nextPage,
+          this.gameApi.lastPage,
+        ];
+        this.currentPage = this.gameApi.currentPage.num;
+        console.log(this.pagination);
         this.filtering({});
       });
   }

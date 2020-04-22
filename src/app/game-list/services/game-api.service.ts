@@ -1,27 +1,58 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {forkJoin, Observable} from 'rxjs';
 import {Categories} from '../../interfaces/categories';
 import {Publishers} from '../../interfaces/publishers';
 import {Developers} from '../../interfaces/developers';
 import {Games} from '../../interfaces/games';
-import {delay, map} from 'rxjs/operators';
+import {delay, map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameApiService {
 
+  private apiUrl = 'http://localhost:3000/';
+  public firstPage = {};
+  public prevPage = {};
+  public nextPage = {};
+  public lastPage = {};
+  public currentPage = {};
+
   constructor(private http: HttpClient) {
   }
 
   getAllCategories(): Observable<Categories[]> {
-    return this.http.get<Categories[]>('http://localhost:3000/genres');
+    return this.http.get<Categories[]>(this.apiUrl + 'genres');
   }
 
-  getAllGames() {
+  getAllPublishers(): Observable<Publishers[]> {
+    return this.http.get<Publishers[]>(this.apiUrl + 'publishers');
+  }
+
+  getAllDevelopers(): Observable<Developers[]> {
+    return this.http.get<Developers[]>(this.apiUrl + 'developers');
+  }
+
+  getAllRawGames(url?: string): Observable<HttpResponse<Games[]>> {
+    if (url) {
+      return this.http.get<Games[]>(url, {observe: 'response'})
+        .pipe(tap(res => {
+          this.retrieve_pagination_links(res.headers.get('Link'));
+          const currentPage = Number(url.replace(/(.*)page=(.*)/, '$2').trim());
+          this.currentPage = {name: 'current', url: '#', num: currentPage};
+        }));
+    }
+    return this.http.get<Games[]>(this.apiUrl + 'games?_limit=9&_page=1', {observe: 'response'})
+      .pipe(tap(res => {
+        this.retrieve_pagination_links(res.headers.get('Link'));
+        this.currentPage = {name: 'current', url: '#', num: 1};
+      }));
+  }
+
+  getAllGames(url?: string) {
     return forkJoin([
-      this.http.get<Games[]>('http://localhost:3000/games'),
+      this.getAllRawGames(url),
       this.getAllCategories(),
       this.getAllPublishers(),
       this.getAllDevelopers()
@@ -33,15 +64,7 @@ export class GameApiService {
                categories,
                publishers,
                developers
-             ]) => this.convert(games, categories, publishers, developers)));
-  }
-
-  getAllPublishers(): Observable<Publishers[]> {
-    return this.http.get<Publishers[]>('http://localhost:3000/publishers');
-  }
-
-  getAllDevelopers(): Observable<Developers[]> {
-    return this.http.get<Developers[]>('http://localhost:3000/developers');
+             ]) => this.convert(games.body, categories, publishers, developers)));
   }
 
   private convert(
@@ -56,4 +79,44 @@ export class GameApiService {
       developer: developers.find(developer => developer.id === Number(game.developer)),
     }));
   }
+
+  private parse_link_header(headerLink: string) {
+    if (headerLink.length === 0) {
+      return;
+    }
+
+    const parts = headerLink.split(',');
+    const links = {};
+    parts.forEach(p => {
+      const section = p.split(';');
+      const url = section[0].replace(/<(.*)>/, '$1').trim();
+      const name = section[1].replace(/rel="(.*)"/, '$1').trim();
+      const num = Number(url.replace(/(.*)page=(.*)/, '$2').trim());
+      links[name] = {name, url, num};
+
+    });
+    return links;
+  }
+
+  private retrieve_pagination_links(headerLink: string) {
+    this.reset_pagination_links();
+    const linkHeader = this.parse_link_header(headerLink);
+    this.firstPage = linkHeader['first'];
+    this.lastPage = linkHeader['last'];
+    if (linkHeader['prev'] && linkHeader['prev'].num !== linkHeader['first'].num) {
+      this.prevPage = linkHeader['prev'];
+    }
+    if (linkHeader['next'] && linkHeader['next'].num !== linkHeader['last'].num) {
+      this.nextPage = linkHeader['next'];
+    }
+  }
+
+  private reset_pagination_links() {
+    this.firstPage = {};
+    this.prevPage = {};
+    this.nextPage = {};
+    this.lastPage = {};
+    this.currentPage = {};
+  }
 }
+
