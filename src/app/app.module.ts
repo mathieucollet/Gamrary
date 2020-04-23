@@ -14,7 +14,7 @@ import {HttpClientModule} from '@angular/common/http';
     AppComponent,
     GameListComponent,
     GameListFilterComponent,
-    GameButtonsComponent
+    GameButtonsComponent,
   ],
   imports: [
     BrowserModule,

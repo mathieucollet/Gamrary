@@ -1,4 +1,5 @@
 $purple: darkslateblue;
+$danger: hsl(348, 100%, 61%);
 $border-color: #3D315B;
 $background-color: #266DD3;
 $list-background-color: #444B6E;
@@ -243,3 +244,32 @@ $border-radius: 5px;
     }
   }
 }
+
+.card-footer {
+  padding: 0 20px 20px 20px;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+
+  .card-button {
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid $danger;
+    color: $danger;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    margin-right: 10px;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+
+
+    &:hover {
+      background-color: $danger;
+      border: 1px solid $danger;
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+

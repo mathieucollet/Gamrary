@@ -8,7 +8,7 @@
     <div class="input-group">
       <select name="type" id="type" class="slide-up" [value]="form.type"
               (change)="setValue($event.target)">
-        <option disabled>Choisis un type</option>
+        <option disabled selected value="">Choisis un type</option>
         <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
       </select>
       <label for="type">Type</label>

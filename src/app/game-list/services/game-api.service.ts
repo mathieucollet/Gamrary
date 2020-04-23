@@ -34,25 +34,34 @@ export class GameApiService {
     return this.http.get<Developers[]>(this.apiUrl + 'developers');
   }
 
-  getAllRawGames(url?: string): Observable<HttpResponse<Games[]>> {
-    if (url) {
-      return this.http.get<Games[]>(url, {observe: 'response'})
+  getAllRawGames(pageNum?: number): Observable<HttpResponse<Games[]>> {
+    if (pageNum) {
+      return this.http.get<Games[]>(this.apiUrl + 'games?_limit=9&_page=' + pageNum, {observe: 'response'})
         .pipe(tap(res => {
-          this.retrieve_pagination_links(res.headers.get('Link'));
-          const currentPage = Number(url.replace(/(.*)page=(.*)/, '$2').trim());
-          this.currentPage = {name: 'current', url: '#', num: currentPage};
+          this.reset_pagination_links();
+          if (res.headers.get('Link')) {
+            this.retrieve_pagination_links(res.headers.get('Link'));
+          }
+          this.currentPage = {name: 'current', num: pageNum};
         }));
     }
     return this.http.get<Games[]>(this.apiUrl + 'games?_limit=9&_page=1', {observe: 'response'})
       .pipe(tap(res => {
-        this.retrieve_pagination_links(res.headers.get('Link'));
-        this.currentPage = {name: 'current', url: '#', num: 1};
+        this.reset_pagination_links();
+        if (res.headers.get('Link')) {
+          this.retrieve_pagination_links(res.headers.get('Link'));
+        }
+        this.currentPage = {name: 'current', num: 1};
       }));
   }
 
-  getAllGames(url?: string) {
+  deleteGame(gameId: number) {
+    return this.http.delete(this.apiUrl + 'games/' + gameId);
+  }
+
+  getAllGames(pageNum?: number) {
     return forkJoin([
-      this.getAllRawGames(url),
+      this.getAllRawGames(pageNum),
       this.getAllCategories(),
       this.getAllPublishers(),
       this.getAllDevelopers()
@@ -89,17 +98,15 @@ export class GameApiService {
     const links = {};
     parts.forEach(p => {
       const section = p.split(';');
-      const url = section[0].replace(/<(.*)>/, '$1').trim();
       const name = section[1].replace(/rel="(.*)"/, '$1').trim();
-      const num = Number(url.replace(/(.*)page=(.*)/, '$2').trim());
-      links[name] = {name, url, num};
+      const num = Number(section[0].replace(/(.*)page=(.[0-9]{0,9})&{0,1}(.*)/, '$2').trim());
+      links[name] = {name, num};
 
     });
     return links;
   }
 
   private retrieve_pagination_links(headerLink: string) {
-    this.reset_pagination_links();
     const linkHeader = this.parse_link_header(headerLink);
     this.firstPage = linkHeader['first'];
     this.lastPage = linkHeader['last'];
