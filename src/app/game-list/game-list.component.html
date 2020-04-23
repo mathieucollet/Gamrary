@@ -7,9 +7,10 @@
 <div class="pagination">
   <ul>
     <ng-container *ngFor="let button of pagination">
-      <li *ngIf="button.url && !((button.name === 'first' || button.name === 'last') && button.num === currentPage)"
-          (click)="button.url !== '#' ? getGamesList(button.url) : ''"
-          [ngClass]="{'active' : button.num === currentPage}">{{button.name === 'first' ? 'First' : (button.name === 'last' ? 'Last' : button.num)}}</li>
+      <li
+        *ngIf="button.num && !((button.name === 'first' || button.name === 'last') && button.num === currentPage['num'])"
+        (click)="button.num !== currentPage['num'] ? getGamesList(button.num) : ''"
+        [ngClass]="{'active' : button.num === currentPage['num']}">{{button.name === 'first' ? 'First' : (button.name === 'last' ? 'Last' : button.num)}}</li>
     </ng-container>
   </ul>
 </div>
@@ -47,22 +48,25 @@
              [alt]="game.title + 'battleblock theater cover'">
       </div>
       <div class="card-body">
-        <p class="description">{{truncate(game.description)}}</p>
+        <p class="description">{{truncate(game.description) }}</p>
         <div class="infos">
           <p><span class="muted">Publisher : </span> {{game.publisher.name}}</p>
           <p><span class="muted">Developer : </span> {{game.developer.name}}</p>
         </div>
       </div>
-      <app-game-buttons [game]="game.titre" (clicked)="buttonAlert($event)"></app-game-buttons>
+      <div class="card-footer">
+        <div (click)="deleteGame(game.id)" class="card-button">Delete</div>
+      </div>
 
     </div>
   </article>
   <div class="pagination">
     <ul>
       <ng-container *ngFor="let button of pagination">
-        <li *ngIf="button.url && !((button.name === 'first' || button.name === 'last') && button.num === currentPage)"
-            (click)="getGamesList(button.url)"
-            [ngClass]="{'active' : button.num === currentPage}">{{button.name === 'first' ? 'First' : (button.name === 'last' ? 'Last' : button.num)}}</li>
+        <li
+          *ngIf="button.url && !((button.name === 'first' || button.name === 'last') && button.num === currentPage['num'])"
+          (click)="getGamesList(button.url)"
+          [ngClass]="{'active' : button.num === currentPage['num']}">{{button.name === 'first' ? 'First' : (button.name === 'last' ? 'Last' : button.num)}}</li>
       </ng-container>
     </ul>
   </div>

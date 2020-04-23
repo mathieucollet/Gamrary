@@ -12,10 +12,11 @@ export class GameListComponent implements OnInit {
 
   filteredGames: any[];
   pagination: any[];
-  currentPage: number;
+  currentPage: {};
 
   actualCardWidth = 500;
   baseCardWidth = 500;
+  filters: {};
 
   constructor(private gameApi: GameApiService) {
   }
@@ -37,6 +38,7 @@ export class GameListComponent implements OnInit {
   }
 
   filtering(form) {
+    this.filters = form;
     this.filteredGames = this.games
       .filter(game =>
         (!form.name || game.title.includes(form.name))
@@ -45,8 +47,8 @@ export class GameListComponent implements OnInit {
       );
   }
 
-  getGamesList(url?: string) {
-    this.gameApi.getAllGames(url)
+  getGamesList(pageNum?: number) {
+    this.gameApi.getAllGames(pageNum)
       .subscribe((data: Games[]) => {
         this.games = data;
         this.pagination = [
@@ -56,10 +58,18 @@ export class GameListComponent implements OnInit {
           this.gameApi.nextPage,
           this.gameApi.lastPage,
         ];
-        this.currentPage = this.gameApi.currentPage.num;
-        console.log(this.pagination);
-        this.filtering({});
+        this.currentPage = this.gameApi.currentPage;
+        this.filtering(this.filters ? this.filters : {});
       });
+  }
+
+  deleteGame(gameId: number) {
+    if (confirm('Are you sure you want to delete this game ?')) {
+      this.gameApi.deleteGame(gameId)
+        .subscribe(data => {
+          this.getGamesList(this.currentPage['num']);
+        });
+    }
   }
 
   ngOnInit() {
