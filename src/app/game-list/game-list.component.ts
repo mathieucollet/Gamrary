@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GameApiService} from './services/game-api.service';
+import {GameApiService} from '../services/game-api.service';
 import {Games} from '../interfaces/games';
 
 @Component({
@@ -10,7 +10,7 @@ import {Games} from '../interfaces/games';
 export class GameListComponent implements OnInit {
   games: Games[];
 
-  filteredGames: any[];
+  filteredGames: Games[];
   pagination: any[];
   currentPage: {};
 
@@ -41,9 +41,9 @@ export class GameListComponent implements OnInit {
     this.filters = form;
     this.filteredGames = this.games
       .filter(game =>
-        (!form.name || game.title.includes(form.name))
+        (!form.name || game.title.toLowerCase().includes(form.name.toLowerCase()))
         && (!form.type || (!!game.genres.find(genre => genre.id === Number(form.type))))
-        && (!form.editor || game.publisher.name.includes(form.editor))
+        && (!form.editor || game.publisher.name.toLowerCase().includes(form.editor.toLowerCase()))
       );
   }
 

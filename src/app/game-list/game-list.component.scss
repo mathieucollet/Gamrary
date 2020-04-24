@@ -5,6 +5,7 @@ $background-color: #266DD3;
 $list-background-color: #444B6E;
 $active-list-background-color: #9AB87A;
 $border-radius: 5px;
+$lh: 1.4rem;
 
 * {
   margin: 0;
@@ -97,8 +98,16 @@ $border-radius: 5px;
     .card-body {
       padding-bottom: 20px;
 
-      .description {
-        padding: 20px;
+      .description-container {
+        line-height: $lh;
+
+        .description {
+          margin: 20px;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+        }
       }
 
       .infos {
