@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {forkJoin, Observable} from 'rxjs';
-import {Categories} from '../../interfaces/categories';
-import {Publishers} from '../../interfaces/publishers';
-import {Developers} from '../../interfaces/developers';
-import {Games} from '../../interfaces/games';
+import {Categories} from '../interfaces/categories';
+import {Publishers} from '../interfaces/publishers';
+import {Developers} from '../interfaces/developers';
+import {Games} from '../interfaces/games';
 import {delay, map, tap} from 'rxjs/operators';
 
 @Injectable({
