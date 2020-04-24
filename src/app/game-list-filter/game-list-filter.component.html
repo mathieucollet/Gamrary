@@ -1,7 +1,7 @@
 <form action="">
   <div class="inputs-group">
     <div class="input-group">
-      <input type="text" name="name" id="name" class="slide-up" [value]="form.name"
+      <input type="text" name="name" id="name" (keyup.enter)="filter()" class="slide-up" [value]="form.name"
              (change)="setValue($event.target)">
       <label for="name">Nom</label>
     </div>
@@ -14,7 +14,7 @@
       <label for="type">Type</label>
     </div>
     <div class="input-group">
-      <input type="text" name="editor" id="editor" class="slide-up" [value]="form.editor"
+      <input type="text" name="editor" id="editor" (keyup.enter)="filter()" class="slide-up" [value]="form.editor"
              (change)="setValue($event.target)">
       <label for="editor">Éditeur</label>
     </div>

@@ -40,7 +40,7 @@
           </p>
         </div>
         <div class="card-header-right">
-          <p>{{game.note ? game.note : '- '}}/10</p>
+          <h3>{{game.note || '- '}}/10</h3>
         </div>
       </div>
       <div class="card-img">
@@ -48,7 +48,9 @@
              [alt]="game.title + 'battleblock theater cover'">
       </div>
       <div class="card-body">
-        <p class="description">{{truncate(game.description) }}</p>
+        <div class="description-container">
+          <p class="description" [innerHTML]="game.description"></p>
+        </div>
         <div class="infos">
           <p><span class="muted">Publisher : </span> {{game.publisher.name}}</p>
           <p><span class="muted">Developer : </span> {{game.developer.name}}</p>
@@ -64,8 +66,8 @@
     <ul>
       <ng-container *ngFor="let button of pagination">
         <li
-          *ngIf="button.url && !((button.name === 'first' || button.name === 'last') && button.num === currentPage['num'])"
-          (click)="getGamesList(button.url)"
+          *ngIf="button.num && !((button.name === 'first' || button.name === 'last') && button.num === currentPage['num'])"
+          (click)="button.num !== currentPage['num'] ? getGamesList(button.num) : ''"
           [ngClass]="{'active' : button.num === currentPage['num']}">{{button.name === 'first' ? 'First' : (button.name === 'last' ? 'Last' : button.num)}}</li>
       </ng-container>
     </ul>
