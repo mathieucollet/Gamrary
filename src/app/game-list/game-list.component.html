@@ -1,8 +1,16 @@
 <app-game-list-filter (filtered)="filtering($event)"></app-game-list-filter>
 <div class="css-buttons">
-  <div (click)="changeCardSize(10, true)" class="css-button">-</div>
-  <div (click)="changeCardSize(10)" class="css-button">+</div>
-  <div (click)="resetCardSize()" class="css-button">RAZ</div>
+  <button mat-raised-button color="primary" style="margin-right:3px;" (click)="changeCardSize(10, true)">
+    <span class="material-icons">
+      remove
+    </span>
+  </button>
+  <button mat-raised-button color="primary" style="margin: 0 3px;" (click)="changeCardSize(10)">
+    <span class="material-icons">
+      add
+    </span>
+  </button>
+  <button mat-raised-button color="primary" style="margin-left:3px;" (click)="resetCardSize()">RAZ</button>
 </div>
 <div class="pagination">
   <ul>
@@ -16,51 +24,51 @@
 </div>
 <ng-template #loading>
   <div class="spin-container">
-    <div class="lds-grid">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <mat-spinner></mat-spinner>
   </div>
 </ng-template>
 <section *ngIf="games; else loading">
   <article class="games-container">
-    <div *ngFor="let game of filteredGames" class="card" [style.width.px]="actualCardWidth">
-      <div class="card-header">
-        <div class="card-header-middle">
-          <h3 class="title">{{game.title}}</h3>
-          <p>
-            <span *ngFor="let genre of game.genres; let last = last">{{!last ? genre.name + ', ' : genre.name}}</span>
-          </p>
-        </div>
-        <div class="card-header-right">
-          <h3>{{game.note || '- '}}/10</h3>
-        </div>
+    <mat-card *ngFor="let game of filteredGames" class="card" [style.width.px]="actualCardWidth">
+      <div class="pointer" [routerLink]="['/product/' + game.id]">
+        <mat-card-header class="card-header">
+          <div class="card-header-left">
+            <mat-card-title>
+              {{game.title}}
+            </mat-card-title>
+            <mat-card-subtitle>
+              <span *ngFor="let genre of game.genres; let last = last">{{!last ? genre.name + ', ' : genre.name}}</span>
+            </mat-card-subtitle>
+          </div>
+          <div class="card-header-right">
+            <h3>{{game.note || '- '}}/10</h3>
+          </div>
+        </mat-card-header>
+        <img mat-card-image [src]="game.coverImage" [alt]="game.title + ' cover'">
+        <mat-card-content>
+          <div class="description-container">
+            <p class="description" [innerHTML]="game.description"></p>
+          </div>
+          <div class="infos">
+            <p><span class="muted">Publisher : </span> {{game.publisher.name}}</p>
+            <p><span class="muted">Developer : </span> {{game.developer.name}}</p>
+          </div>
+        </mat-card-content>
       </div>
-      <div class="card-img">
-        <img [src]="game.coverImage"
-             [alt]="game.title + 'battleblock theater cover'">
-      </div>
-      <div class="card-body">
-        <div class="description-container">
-          <p class="description" [innerHTML]="game.description"></p>
-        </div>
-        <div class="infos">
-          <p><span class="muted">Publisher : </span> {{game.publisher.name}}</p>
-          <p><span class="muted">Developer : </span> {{game.developer.name}}</p>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div (click)="deleteGame(game.id)" class="card-button">Delete</div>
-      </div>
-
-    </div>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [routerLink]="['/product/' + game.id + '/edit']"
+                title="Edit the game">
+          <span class="material-icons">
+            create
+          </span>
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteGame(game.id)" title="Delete the game">
+          <span class="material-icons">
+            delete_forever
+          </span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </article>
   <div class="pagination">
     <ul>

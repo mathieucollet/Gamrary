@@ -3,22 +3,29 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {GameListComponent} from './game-list/game-list.component';
-import {GameListFilterComponent} from './game-list-filter/game-list-filter.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {GameListModule} from './game-list/game-list.module';
+import {NotFoundModule} from './not-found/not-found.module';
+import {GameDetailsModule} from './game-details/game-details.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {GameFormModule} from './game-form/game-form.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GameListComponent,
-    GameListFilterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    GameListModule,
+    NotFoundModule,
+    GameDetailsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    GameFormModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

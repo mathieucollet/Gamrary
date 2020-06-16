@@ -1,4 +1,4 @@
-$purple: darkslateblue;
+$purple: #673ab7;
 $danger: hsl(348, 100%, 61%);
 $border-color: #3D315B;
 $background-color: #266DD3;
@@ -34,6 +34,10 @@ $lh: 1.4rem;
   }
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .games-container {
   display: flex;
   justify-content: space-around;
@@ -46,7 +50,6 @@ $lh: 1.4rem;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: box-shadow 0.3s cubic-bezier(.25, .8, .25, 1), width 1s;
-    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -55,28 +58,14 @@ $lh: 1.4rem;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     }
 
+
     .card-header {
       display: flex;
       justify-content: space-between;
-      padding: 20px;
+      align-items: center;
 
-      .avatar {
-        flex: 1;
-
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50px;
-        }
-      }
-
-      .card-header-middle {
+      .card-header-left {
         flex: 4;
-
-        .title {
-          padding-bottom: 4px;
-          text-overflow: ellipsis;
-        }
       }
 
       .card-header-right {
@@ -86,18 +75,7 @@ $lh: 1.4rem;
       }
     }
 
-    .card-img {
-      img {
-        object-fit: cover;
-        object-position: center center;
-        width: 100%;
-        height: 275px;
-      }
-    }
-
-    .card-body {
-      padding-bottom: 20px;
-
+    mat-card-content {
       .description-container {
         line-height: $lh;
 
@@ -119,7 +97,13 @@ $lh: 1.4rem;
         }
       }
     }
+
+    mat-card-actions {
+      margin-left: auto;
+    }
+
   }
+
 }
 
 .spin-container {
@@ -128,86 +112,6 @@ $lh: 1.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.lds-grid {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-
-.lds-grid div {
-  position: absolute;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: $purple;
-  animation: lds-grid 1.2s linear infinite;
-}
-
-.lds-grid div:nth-child(1) {
-  top: 8px;
-  left: 8px;
-  animation-delay: 0s;
-}
-
-.lds-grid div:nth-child(2) {
-  top: 8px;
-  left: 32px;
-  animation-delay: -0.4s;
-}
-
-.lds-grid div:nth-child(3) {
-  top: 8px;
-  left: 56px;
-  animation-delay: -0.8s;
-}
-
-.lds-grid div:nth-child(4) {
-  top: 32px;
-  left: 8px;
-  animation-delay: -0.4s;
-}
-
-.lds-grid div:nth-child(5) {
-  top: 32px;
-  left: 32px;
-  animation-delay: -0.8s;
-}
-
-.lds-grid div:nth-child(6) {
-  top: 32px;
-  left: 56px;
-  animation-delay: -1.2s;
-}
-
-.lds-grid div:nth-child(7) {
-  top: 56px;
-  left: 8px;
-  animation-delay: -0.8s;
-}
-
-.lds-grid div:nth-child(8) {
-  top: 56px;
-  left: 32px;
-  animation-delay: -1.2s;
-}
-
-.lds-grid div:nth-child(9) {
-  top: 56px;
-  left: 56px;
-  animation-delay: -1.6s;
-}
-
-@keyframes lds-grid {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
 }
 
 .pagination {
@@ -263,8 +167,6 @@ $lh: 1.4rem;
   .card-button {
     cursor: pointer;
     background-color: white;
-    border: 1px solid $danger;
-    color: $danger;
     padding: 5px 10px;
     border-radius: 3px;
     text-decoration: none;
@@ -272,12 +174,29 @@ $lh: 1.4rem;
     text-transform: uppercase;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 
+    &.btn-danger {
+      border: 1px solid $danger;
+      color: $danger;
+    }
+
+    &.btn-purple {
+      border: 1px solid $purple;
+      color: $purple;
+    }
 
     &:hover {
-      background-color: $danger;
-      border: 1px solid $danger;
       color: white;
       font-weight: bold;
+
+      &.btn-danger {
+        background-color: $danger;
+        border: 1px solid $danger;
+      }
+
+      &.btn-purple {
+        background-color: $purple;
+        border: 1px solid $purple;
+      }
     }
   }
 }

@@ -34,6 +34,18 @@ export class GameApiService {
     return this.http.get<Developers[]>(this.apiUrl + 'developers');
   }
 
+  getRawGame(gameId: number): Observable<Games> {
+    return this.http.get<Games>(this.apiUrl + 'games/' + gameId);
+  }
+
+  createGame(game: Games) {
+    return this.http.post(this.apiUrl + 'games', game);
+  }
+
+  editGame(editGame: Games) {
+    return this.http.patch(this.apiUrl + 'games/' + editGame.id, editGame);
+  }
+
   getAllRawGames(pageNum?: number): Observable<HttpResponse<Games[]>> {
     if (pageNum) {
       return this.http.get<Games[]>(this.apiUrl + 'games?_limit=9&_page=' + pageNum, {observe: 'response'})
@@ -59,6 +71,30 @@ export class GameApiService {
     return this.http.delete(this.apiUrl + 'games/' + gameId);
   }
 
+  getGame(gameId: number) {
+    return forkJoin([
+      this.getRawGame(gameId),
+      this.getAllCategories(),
+      this.getAllPublishers(),
+      this.getAllDevelopers()
+    ])
+      .pipe(
+        delay(1000),
+        map(([
+               game,
+               categories,
+               publishers,
+               developers
+             ]) => this.convertGame(game, categories, publishers, developers)));
+  }
+
+  private convertGame(game: Games, categories: Categories[], publishers: Publishers[], developers: Developers[]) {
+    game.genres = game.genres.map(genre => categories.find(category => category.id === Number(genre)));
+    game.publisher = publishers.find(publisher => publisher.id === Number(game.publisher));
+    game.developer = developers.find(developer => developer.id === Number(game.developer));
+    return game;
+  }
+
   getAllGames(pageNum?: number) {
     return forkJoin([
       this.getAllRawGames(pageNum),
@@ -73,10 +109,10 @@ export class GameApiService {
                categories,
                publishers,
                developers
-             ]) => this.convert(games.body, categories, publishers, developers)));
+             ]) => this.convertGames(games.body, categories, publishers, developers)));
   }
 
-  private convert(
+  private convertGames(
     games: Games[],
     categories: Categories[],
     publishers: Publishers[],

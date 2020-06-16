@@ -1,6 +1,12 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <nav>
   <div class="logo">
     <h1>Gamrary</h1>
   </div>
+  <ul>
+    <li [routerLink]="['/product']">Games List</li>
+    <li [routerLink]="['/product/new']">New game</li>
+  </ul>
 </nav>
-<app-game-list></app-game-list>
+<router-outlet></router-outlet>

@@ -1,0 +1,28 @@
+<div *ngIf="game" class="game_card">
+  <div class="info_section">
+    <div class="game_header">
+      <img class="lock" [src]="game.coverImage" [alt]="game.title + ' cover'"/>
+      <h1>{{game.title}}</h1>
+      <h4>{{game.publisher.name}}{{game.publisher.name !== game.developer.name ? ', ' + game.developer.name : ''}}</h4>
+      <span class="note">{{game.note || '- '}} / 10</span>
+      <span class="genres"
+            *ngFor="let genre of game.genres; let last = last">{{!last ? genre.name + ', ' : genre.name}}</span>
+    </div>
+    <div class="game_desc">
+      <p class="text" [innerHTML]="game.description"></p>
+    </div>
+    <div class="game_social">
+      <ul>
+        <li class="pointer">
+          <mat-icon (click)="deleteGame(game.id)" aria-hidden="false" aria-label="Edit icon">delete_forever</mat-icon>
+        </li>
+        <li class="pointer">
+          <mat-icon [routerLink]="['/product/' + game.id + '/edit']" aria-hidden="false" aria-label="Edit icon">edit
+          </mat-icon>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="blur_back" [style.backgroundImage]="'url(' + game.coverImage + ')'">
+  </div>
+</div>

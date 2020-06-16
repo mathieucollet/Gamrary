@@ -1,26 +1,28 @@
-<form action="">
-  <div class="inputs-group">
-    <div class="input-group">
-      <input type="text" name="name" id="name" (keyup.enter)="filter()" class="slide-up" [value]="form.name"
-             (change)="setValue($event.target)">
-      <label for="name">Nom</label>
-    </div>
-    <div class="input-group">
-      <select name="type" id="type" class="slide-up" [value]="form.type"
-              (change)="setValue($event.target)">
-        <option disabled selected value="">Choisis un type</option>
-        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
-      </select>
-      <label for="type">Type</label>
-    </div>
-    <div class="input-group">
-      <input type="text" name="editor" id="editor" (keyup.enter)="filter()" class="slide-up" [value]="form.editor"
-             (change)="setValue($event.target)">
-      <label for="editor">Éditeur</label>
-    </div>
+<form (ngSubmit)="onSubmit()" #filterForm="ngForm">
+
+  <div class="inputs">
+    <mat-form-field class="fields">
+      <mat-label>Nom</mat-label>
+      <input matInput type="text" name="name" [(ngModel)]="form.name" (change)="setValue($event.target)" id="name">
+    </mat-form-field>
+
+    <mat-form-field class="fields">
+      <mat-label>Genres</mat-label>
+      <mat-select [(ngModel)]="form.type" id="type" name="type">
+        <mat-option value="">Tous</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="fields">
+      <mat-label>Éditeur</mat-label>
+      <input matInput type="text" name="editor" [(ngModel)]="form.editor" (change)="setValue($event.target)"
+             id="editor">
+    </mat-form-field>
   </div>
+
   <div class="form-buttons">
-    <div (click)="filter()" class="button btn-ok">Filter</div>
-    <div (click)="razFilter()" class="button btn-warning">RAZ</div>
+    <button mat-raised-button color="primary" [disabled]="!filterForm.valid">Filter</button>
+    <button mat-raised-button color="secondary" (click)="razFilter()">RAZ</button>
   </div>
 </form>
