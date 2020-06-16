@@ -1,0 +1,36 @@
+$purple: darkslateblue;
+$danger: hsl(348, 100%, 61%);
+$border-color: #3D315B;
+$background-color: #266DD3;
+$list-background-color: #444B6E;
+$active-list-background-color: #9AB87A;
+$border-radius: 5px;
+$lh: 1.4rem;
+
+.games-container {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 50%;
+
+  mat-card {
+    margin: 50px 0;
+    width: 60%;
+
+    .fields {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    input.number-input::-webkit-outer-spin-button,
+    input.number-input::-webkit-inner-spin-button {
+      display: none;
+    }
+
+    input.number-input {
+      -moz-appearance: textfield;
+    }
+  }
+}
+
+

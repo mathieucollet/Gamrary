@@ -1,54 +1,48 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {GameApiService} from '../services/game-api.service';
 import {Categories} from '../interfaces/categories';
+import {Filter} from '../models/filter';
 
 type TargetType = any | { name: string, value: string };
 
 @Component({
-    selector: 'app-game-list-filter',
-    templateUrl: './game-list-filter.component.html',
-    styleUrls: ['./game-list-filter.component.scss']
+  selector: 'app-game-list-filter',
+  templateUrl: './game-list-filter.component.html',
+  styleUrls: ['./game-list-filter.component.scss']
 })
 export class GameListFilterComponent implements OnInit {
-    @Output() filtered = new EventEmitter();
+  @Output() filtered = new EventEmitter();
 
-    games: any;
-    categories: Categories[];
+  form = new Filter();
+  categories: Categories[];
 
-    constructor(private gameApi: GameApiService) {
-    }
+  constructor(private gameApi: GameApiService) {
+  }
 
-    form = {
-        name: '',
-        type: '',
-        editor: '',
-    };
+  setValue(target: TargetType) {
+    this.form[target.name] = target.value;
+  }
 
-    setValue(target: TargetType) {
-        this.form[target.name] = target.value;
-    }
+  razFilter() {
+    const that = this.form;
+    Object.keys(this.form).map((key, index) => {
+      that[key] = '';
+    });
+    this.filtered.emit(this.form);
+  }
 
-    filter() {
-        this.filtered.emit(this.form);
-    }
+  getCategoriesList() {
+    this.gameApi.getAllCategories()
+      .subscribe((data: Categories[]) => {
+        this.categories = data;
+      });
+  }
 
-    razFilter() {
-        const that = this.form;
-        Object.keys(this.form).map((key, index) => {
-            that[key] = '';
-        });
-        this.filtered.emit(this.form);
-    }
+  ngOnInit() {
+    this.getCategoriesList();
+  }
 
-    getCategoriesList() {
-        this.gameApi.getAllCategories()
-            .subscribe((data: Categories[]) => {
-                this.categories = data;
-            });
-    }
-
-    ngOnInit() {
-        this.getCategoriesList();
-    }
-
+  onSubmit() {
+    this.filtered.emit(this.form);
+  }
 }

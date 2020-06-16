@@ -3,12 +3,30 @@ nav {
   height: 70px;
   background-color: darkslateblue;
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
+  color: white;
 
   .logo {
     margin-left: 20px;
     display: flex;
     align-items: center;
-    color: white;
+    margin-right: 20px;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+
+    li {
+      transition: all 0.1s;
+      margin-right: 20px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }
